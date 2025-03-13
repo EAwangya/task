@@ -4,4 +4,4 @@ tasks:
   docs:build:
     cmds:
       - mkdir -p hugo/src/build
-      - cp -r * hugo/src/build/
+      - rsync -av --exclude='src/build' --exclude='Taskfile.yml' ./ hugo/src/build/

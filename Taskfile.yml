@@ -4,4 +4,4 @@ tasks:
   docs:build:
     cmds:
       - mkdir -p hugo/src/build
-      - cp -r src/* hugo/src/build/
+      - cp -r * hugo/src/build/

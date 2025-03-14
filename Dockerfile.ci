@@ -1,7 +1,7 @@
-# Use a minimal Alpine base image
+# Use Alpine as the base image
 FROM alpine:latest
 
-# Install necessary dependencies
+# Install dependencies
 RUN apk add --no-cache \
     curl \
     rsync \
@@ -9,6 +9,7 @@ RUN apk add --no-cache \
     git \
     ca-certificates \
     tar \
+    hugo \
     && update-ca-certificates
 
 # Install Go
@@ -19,13 +20,6 @@ RUN curl -fsSL https://golang.org/dl/go1.23.4.linux-amd64.tar.gz -o go.tar.gz &&
 # Set PATH for Go
 ENV PATH=$PATH:/usr/local/go/bin
 
-# Install Hugo
-RUN curl -fsSL https://github.com/gohugoio/hugo/releases/download/v0.120.1/hugo_0.120.1_Linux-64bit.tar.gz -o hugo.tar.gz && \
-    tar -xvzf hugo.tar.gz && \
-    mv hugo /usr/local/bin/hugo && \
-    chmod +x /usr/local/bin/hugo && \
-    rm hugo.tar.gz
-
 # Install Task
 RUN curl -fsSL https://taskfile.dev/install.sh | sh -s -- -d -b /usr/local/bin && \
     chmod +x /usr/local/bin/task
@@ -33,5 +27,5 @@ RUN curl -fsSL https://taskfile.dev/install.sh | sh -s -- -d -b /usr/local/bin &
 # Verify installations
 RUN hugo version && task --version
 
-# Default entrypoint (switch to bash for better compatibility)
+# Default to bash
 ENTRYPOINT ["/bin/bash"]

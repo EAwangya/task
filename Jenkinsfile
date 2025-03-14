@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        // stage('git') { ///
+        // stage('git') { 
         //     steps {
         //         git branch: 'main', url: 'https://github.com/EAwangya/task.git'
         //     }

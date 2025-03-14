@@ -1,6 +1,14 @@
 # Use Alpine as the base image
 FROM alpine:latest
 
+# Add metadata labels
+LABEL maintainer="Your Name <your.email@example.com>"
+LABEL description="Development environment with Go, Hugo, and Task"
+LABEL version="1.0"
+
+# Set working directory
+WORKDIR /app
+
 # Install dependencies
 RUN apk add --no-cache \
     curl \
@@ -9,16 +17,20 @@ RUN apk add --no-cache \
     git \
     ca-certificates \
     tar \
-    hugo \
     && update-ca-certificates
 
 # Install Go
-RUN curl -fsSL https://golang.org/dl/go1.23.4.linux-amd64.tar.gz -o go.tar.gz && \
+RUN curl -fsSL https://golang.org/dl/go1.21.5.linux-amd64.tar.gz -o go.tar.gz && \
     tar -C /usr/local -xzf go.tar.gz && \
     rm go.tar.gz
 
 # Set PATH for Go
 ENV PATH=$PATH:/usr/local/go/bin
+ENV GOPATH=/go
+ENV PATH=$PATH:$GOPATH/bin
+
+# Install Hugo via Go
+RUN go install -v github.com/gohugoio/hugo@latest
 
 # Install Task
 RUN curl -fsSL https://taskfile.dev/install.sh | sh -s -- -d -b /usr/local/bin && \
